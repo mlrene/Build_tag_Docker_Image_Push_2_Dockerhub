@@ -1,0 +1,28 @@
+name: Build and tag docker image and push it to dockerhub
+on: 
+  push:
+    Branch:
+        - main
+
+env: 
+  IMAGE_NAME: v1.0
+  DOCKERHUB_REPOSITORY: mlrene/carvilla_image
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build docker image
+        run: docker build -t $IMAGE_NAME .
+      - name: Tag the docker image
+        run: docker image tag IMAGE_NAME $DOCKERHUB_REPOSITORY:$IMAGE_NAME
+      - name: Login to dockerhub
+        uses: docker/login-action@v1
+        with:
+          username: ${{secrets.DOCKERHUB_USERNAME}}
+          password: ${{secrets.Dockerhub_TOKEN}}
+      - name: push image to dockerhub repository
+        run: docker push $DOCKERHUB_REPOSITORY:$IMAGE_NAME
+
+
