@@ -1,2 +1,2 @@
 FROM nginx
-ADD ./carvilla-v1.0 /usr/shar/nginx/html
+ADD ./carvilla-v1.0 /usr/share/nginx/html
